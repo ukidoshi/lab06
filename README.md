@@ -5,4 +5,6 @@ ukidoshi // Nachyn Saryglar
 
 [![Solver_run](https://github.com/ukidoshi/lab06/actions/workflows/main.yml/badge.svg)](https://github.com/ukidoshi/lab06/actions/workflows/main.yml)
 
-W/ veryfied tags ✅ 
+W/ veryfied tags ✅
+
+==================== 
