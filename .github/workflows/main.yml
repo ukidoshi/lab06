@@ -1,0 +1,27 @@
+name: Solver_binary_files
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test_usual_work:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Git clone my repo
+      uses: actions/checkout@v1
+      
+    - name: Check cmake
+      run : cmake --version
+    
+    - name: Make builds
+      run : |
+        mkdir cmake-build && cd cmake-build
+        cmake ..
+        make
+    - name: run solver_application
+      run : | 
+        cd cmake-build/solver_application
+        ./solver 1 4 4
