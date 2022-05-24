@@ -51,7 +51,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with: 
        upload_url: ${{ needs.Make_GitHub_Release.outputs.upload_url }}
-       asset_path: ./cmake/solver-1.0.0-Linux.tar.gz
+       asset_path: ./cmake/solver-${{ github.ref_name }}-Linux.tar.gz
        asset_name: Solver.tar.gz
        asset_content_type: code/tgz
        
@@ -62,7 +62,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with: 
        upload_url: ${{ needs.Make_GitHub_Release.outputs.upload_url }}
-       asset_path: ./cmake/solver-1.0.0-Linux.zip
+       asset_path: ./cmake/solver-${{ github.ref_name }}-Linux.zip
        asset_name: Solver.zip
        asset_content_type: code/zip
 
@@ -92,7 +92,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with: 
        upload_url: ${{ needs.Make_GitHub_Release.outputs.upload_url }}
-       asset_path: ./cmake/solver-1.0.0-Linux.deb
+       asset_path: ./cmake/solver-${{ github.ref_name }}-Linux.deb
        asset_name: solver_app.deb
        asset_content_type: application/deb
        
@@ -103,7 +103,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with: 
        upload_url: ${{ needs.Make_GitHub_Release.outputs.upload_url }}
-       asset_path: ./cmake/solver-1.0.0-Linux.rpm
+       asset_path: ./cmake/solver-${{ github.ref_name }}-Linux.rpm
        asset_name: solver_app.rpm
        asset_content_type: application/rpm
 
@@ -130,7 +130,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with: 
        upload_url: ${{ needs.Make_GitHub_Release.outputs.upload_url }}
-       asset_path: ./cmake/solver-1.0.0-win64.msi
+       asset_path: ./cmake/solver-${{ github.ref_name }}-win64.msi
        asset_name: solver_app.msi
        asset_content_type: application/msi
 
@@ -157,6 +157,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with: 
           upload_url: ${{ needs.Make_GitHub_Release.outputs.upload_url }}
-          asset_path: ./cmake/solver-1.0.0-Darwin.dmg
+          asset_path: ./cmake/solver-${{ github.ref_name }}-AppleMacOS.dmg
           asset_name: solver_app.dmg
           asset_content_type: application/dmg
