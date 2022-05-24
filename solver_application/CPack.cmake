@@ -7,6 +7,10 @@ set(CPACK_PACKAGE_VERSION_PATCH "7")
 
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "CPack ukidoshi package's")
 
+set(CPACK_PACKAGE_NAME "solver")
+
+set(CPACK_PACKAGE_FILE_NAME "solver")
+
 option(GENERATOR "")
 
 if(${GENERATOR} MATCHES BIN)
