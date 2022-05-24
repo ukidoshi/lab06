@@ -1,4 +1,4 @@
-name: Solver_binary_files
+name: Solver_run
 
 on:
   push:
