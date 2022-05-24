@@ -21,6 +21,7 @@ if(${GENERATOR} MATCHES ARC)
 	install(TARGETS formatter_ex solver_lib LIBRARY DESTINATION lib)
 endif()
 
+
 install(TARGETS solver DESTINATION bin)
 
 include(CPack)
