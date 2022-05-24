@@ -15,4 +15,4 @@ target_link_libraries(${PROJECT_NAME}
                                    formatter_ex
                                    solver_lib)
 
-		   
+include(CPack.cmake)	
