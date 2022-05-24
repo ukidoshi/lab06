@@ -51,8 +51,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with: 
        upload_url: ${{ needs.Make_GitHub_Release.outputs.upload_url }}
-       asset_path: ./cmake/solver-${{ github.ref_name }}-Linux.tar.gz
-       asset_name: Solver.tar.gz
+       asset_path: ./cmake/solver-Linux.tar.gz
+       asset_name: Solver-${{ github.ref_name }}.tar.gz
        asset_content_type: code/tgz
        
     - name: Upload ZIP
@@ -62,8 +62,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with: 
        upload_url: ${{ needs.Make_GitHub_Release.outputs.upload_url }}
-       asset_path: ./cmake/solver-${{ github.ref_name }}-Linux.zip
-       asset_name: Solver.zip
+       asset_path: ./cmake/solver-Linux.zip
+       asset_name: Solver-${{ github.ref_name }}.zip
        asset_content_type: code/zip
 
   Linux_Binary:
@@ -92,8 +92,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with: 
        upload_url: ${{ needs.Make_GitHub_Release.outputs.upload_url }}
-       asset_path: ./cmake/solver-${{ github.ref_name }}-Linux.deb
-       asset_name: solver_app.deb
+       asset_path: ./cmake/solver-Linux.deb
+       asset_name: solver_app-${{ github.ref_name }}.deb
        asset_content_type: application/deb
        
     - name: Upload RPM
@@ -103,8 +103,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with: 
        upload_url: ${{ needs.Make_GitHub_Release.outputs.upload_url }}
-       asset_path: ./cmake/solver-${{ github.ref_name }}-Linux.rpm
-       asset_name: solver_app.rpm
+       asset_path: ./cmake/solver-Linux.rpm
+       asset_name: solver_app-${{ github.ref_name }}.rpm
        asset_content_type: application/rpm
 
   Windows_Binary:
@@ -130,8 +130,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with: 
        upload_url: ${{ needs.Make_GitHub_Release.outputs.upload_url }}
-       asset_path: ./cmake/solver-${{ github.ref_name }}-win64.msi
-       asset_name: solver_app.msi
+       asset_path: ./cmake/solver-win64.msi
+       asset_name: solver_app-${{ github.ref_name }}.msi
        asset_content_type: application/msi
 
   MacOs_Binary:    
@@ -157,6 +157,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with: 
           upload_url: ${{ needs.Make_GitHub_Release.outputs.upload_url }}
-          asset_path: ./cmake/solver-${{ github.ref_name }}-AppleMacOS.dmg
-          asset_name: solver_app.dmg
+          asset_path: ./cmake/solver-Darwin.dmg
+          asset_name: solver_app-${{ github.ref_name }}.dmg
           asset_content_type: application/dmg
