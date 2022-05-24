@@ -1,0 +1,162 @@
+name: Creat_release
+
+on:
+  push:
+    tags:
+      - 'v*'
+                        
+jobs:
+  Make_GitHub_Release:
+    name   : Create Release
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+                        
+    - name: Release
+      id  : create_release
+      uses: actions/create-release@v1
+      env :
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Upload archive and binary files for uploading
+          draft: false
+          prerelease: false
+
+  Archives:
+    needs: Make_GitHub_Release
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Git clone my repo
+      uses: actions/checkout@v1
+
+    - name: Prepare environment
+      run : |
+        cmake --version
+    - name: Build achive files
+      run : |
+        mkdir cmake && cd cmake
+        cmake -DGENERATOR=ARC ..
+        make
+        cpack -G TGZ
+        cpack -G ZIP
+    - name: Upload TGZ
+      id  : TGZ
+      uses: actions/upload-release-asset@v1
+      env :
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with: 
+       upload_url: ${{ needs.Make_GitHub_Release.outputs.upload_url }}
+       asset_path: ./cmake/solver-1.0.0-Linux.tar.gz
+       asset_name: Solver.tar.gz
+       asset_content_type: code/tgz
+       
+    - name: Upload ZIP
+      id  : ZIP
+      uses: actions/upload-release-asset@v1
+      env :
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with: 
+       upload_url: ${{ needs.Make_GitHub_Release.outputs.upload_url }}
+       asset_path: ./cmake/solver-1.0.0-Linux.zip
+       asset_name: Solver.zip
+       asset_content_type: code/zip
+
+  Linux_Binary:
+    needs: Make_GitHub_Release
+    runs-on: ubuntu-latest
+    steps:
+    - name: Git clone my repo
+      uses: actions/checkout@v1
+
+    - name: Prepare environment
+      run : |
+        cmake --version
+        sudo apt-get install rpm
+    - name: Build binary files
+      run : |
+        mkdir cmake && cd cmake
+        cmake -DGENERATOR=BIN ..
+        make
+        cpack -G DEB
+        cpack -G RPM
+        
+    - name: Upload DEB
+      id  : DEB
+      uses: actions/upload-release-asset@v1
+      env :
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with: 
+       upload_url: ${{ needs.Make_GitHub_Release.outputs.upload_url }}
+       asset_path: ./cmake/solver-1.0.0-Linux.deb
+       asset_name: solver_app.deb
+       asset_content_type: application/deb
+       
+    - name: Upload RPM
+      id  : RPM
+      uses: actions/upload-release-asset@v1
+      env :
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with: 
+       upload_url: ${{ needs.Make_GitHub_Release.outputs.upload_url }}
+       asset_path: ./cmake/solver-1.0.0-Linux.rpm
+       asset_name: solver_app.rpm
+       asset_content_type: application/rpm
+
+  Windows_Binary:
+    needs: Make_GitHub_Release
+    runs-on: windows-latest
+    steps:
+    - name: Git clone my repo
+      uses: actions/checkout@v1
+
+    - name: Prepare environment
+      run : |
+        cmake --version
+    - name: Build binary files
+      run : |
+        mkdir cmake && cd cmake
+        cmake -DGENERATOR=BIN ..
+        cmake --build .
+        cpack -C CPackConfig.cmake -G WIX
+    - name: Upload MSI
+      id  : MSI
+      uses: actions/upload-release-asset@v1
+      env :
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with: 
+       upload_url: ${{ needs.Make_GitHub_Release.outputs.upload_url }}
+       asset_path: ./cmake/solver-1.0.0-win64.msi
+       asset_name: solver_app.msi
+       asset_content_type: application/msi
+
+  MacOs_Binary:    
+    needs: Make_GitHub_Release
+    runs-on: macos-latest
+    steps:
+      - name: Git clone my repo
+        uses: actions/checkout@v1
+
+      - name: Prepare environment
+        run : |
+          cmake --version
+      - name: Build binary files
+        run : |
+          mkdir cmake && cd cmake
+          cmake -DGENERATOR=BIN ..
+          make
+          cpack -G DragNDrop
+      - name: Upload DMG
+        id  : MSI
+        uses: actions/upload-release-asset@v1
+        env :
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with: 
+          upload_url: ${{ needs.Make_GitHub_Release.outputs.upload_url }}
+          asset_path: ./cmake/solver-1.0.0-Darwin.dmg
+          asset_name: solver_app.dmg
+          asset_content_type: application/dmg
